@@ -185,5 +185,4 @@ def hello():
 
   return f"Final Score {finalScore:.2f}%", 200
 
-if __name__ == "__main__":
-    app.run()
+
