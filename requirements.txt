@@ -496,3 +496,4 @@ ffmpeg==1.4
 Flask==2.2.5
 opencv-python-headless==4.9.0.80
 sklearn-pandas==2.2.0
+Gunicorn
