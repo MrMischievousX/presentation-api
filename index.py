@@ -1,7 +1,6 @@
 # Importing Libraries
 
 from flask import Flask, request, jsonify
-from flask_ngrok import run_with_ngrok
 import io
 import warnings
 import textract as tp
@@ -14,7 +13,6 @@ from sklearn.linear_model import LogisticRegression
 import scipy.io.wavfile as wav
 from python_speech_features import mfcc
 import cv2
-from google.colab.patches import cv2_imshow
 import os
 import shutil
 
