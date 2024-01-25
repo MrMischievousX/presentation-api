@@ -1,7 +1,6 @@
 # Importing Libraries
 
-from flask import Flask, request, jsonify
-import io
+from flask import Flask, request, jsonify, json
 import warnings
 import textract as tp
 import moviepy.editor as mp
@@ -13,6 +12,7 @@ from sklearn.linear_model import LogisticRegression
 import scipy.io.wavfile as wav
 from python_speech_features import mfcc
 import cv2
+from flask_cors import CORS
 import os
 import shutil
 
@@ -145,13 +145,18 @@ def getConfidenceFromVideo(path):
 
 # Initiating flask api
 
-app=Flask(__name__)
+app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 path_map = {}
 
 @app.route("/", methods=["GET"])
 def home():
-  return "STARTED"
+  jsonData = {
+    "msg" : "Started",
+  }
+  return json.dumps(jsonData)
 
 @app.route("/upload", methods=["POST"])
 def hello():
@@ -179,10 +184,14 @@ def hello():
   audioScore = getConfidenceFromAudio(path_map["audio"])
   videoScore = getConfidenceFromVideo(path_map["video"])
 
-  finalScore = pptScore * 0.20 + audioTextScore * 0.35 + audioScore * 0.25 + videoScore * 0.20
+  finalScore = (pptScore * 0.20 + audioTextScore * 0.35 + audioScore * 0.25 + videoScore * 0.20)*100
 
   shutil.rmtree('uploads')
 
-  return f"Final Score {finalScore:.2f}%", 200
+  jsonData = {
+    "msg" : f"Your score is {finalScore:.2f}%",
+  }
+
+  return json.dumps(jsonData)
 
 
